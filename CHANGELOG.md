@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/zh-CN/).
 
+## [Unreleased]
+
+### Added
+
+- **DSH port.** The plugin now targets DeepSeek Harness's Cordis plugin surface instead of pi's extension API. The adjudication pipeline is carried over unchanged; the host seam is new:
+  - `tools/pre-execute` (prepended) adjudicates every native call and maps verdicts onto DSH's decision vocabulary. The outer `run_code` transport is not adjudicated; its inner calls are.
+  - The **`auto` permission preset** is registered through `permissionPresets.registerAuto()`, so `/permission auto` selects the gate and the picker lists it. The preset is the master switch.
+  - `ask` delegates to DSH's approval seam, which fails closed without an answerer — the ask-degradation rule now has one owner instead of two.
+  - `/automode` reports status and switches the preset; the dsh-tui footer shows `auto mode on` / `auto mode off` through `tuiStatus.setField`, feature-detected so Web and headless profiles are unaffected.
+  - The classifier calls `ctx.llm.stream()` with the session's own route unless `classifierModel` overrides it.
+- **Self-protection understands the DSH install layout** — `<dshHome>/profiles/<profile>/node_modules/<pkg>/` is now a recognized install root, so the gate protects its own copy and builds a tamper baseline for it. Config anchoring moved to `<dshHome>/dsh-verdict.json`, with `DSH_VERDICT_HOME` as the explicit override.
+
+### Changed
+
+- **The native judgment-classifier backend (ADR-0005) is dropped.** DSH exposes no judgment channel, so the chat prompt contract is the only backend. Consequence, documented rather than hidden: `classifierMinConfidence` keys on protocol-native confidence and therefore cannot fire.
+- **The pi test suite is not ported.** Its harness mocks `ExtensionAPI`/`ExtensionContext` and does not apply to a Cordis plugin; the pure rule-layer and pipeline behaviours are covered by a new offline suite instead. Porting the remaining cases is outstanding work.
+- `README.zh-CN.md` was removed: it documents the pi host and would mislead. The fork is English-only.
+
 ## [0.16.0] - 2026-10-30
 
 ### Security

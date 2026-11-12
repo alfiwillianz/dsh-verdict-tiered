@@ -1,0 +1,9 @@
+# dsh-verdict-tiered bundle patch: mount the plugin into the profile tree.
+#
+# `dsh plugin --profile <name> add dsh-verdict-tiered` pnpm-installs this package
+# into the profile and appends it to `dsh.profile.bundles` because package.json
+# declares `dsh.bundle.patch`. At boot, app-boot applies every bundle's patch
+# list over the empty root; this insert is what mounts the gate.
+- insert:
+    - id: verdict-tiered
+      name: 'dsh-verdict-tiered'

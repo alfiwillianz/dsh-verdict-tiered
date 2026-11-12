@@ -2,6 +2,10 @@
 .DS_Store
 .claude/
 
+# build output and local dependency links
+node_modules/
+lib/
+
 # local agent workspaces (user-declared, never shipped)
 .baoyu-skills/
 .scratch/

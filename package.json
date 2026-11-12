@@ -1,22 +1,36 @@
 {
-	"name": "pi-verdict",
-	"version": "0.16.0",
-	"description": "A minimal permission gate for Pi, inspired by Claude Code's auto mode",
+	"name": "dsh-verdict-tiered",
+	"version": "0.1.0",
+	"description": "Tiered permission gate for DeepSeek Harness (dsh): deterministic rules, a model classifier, and optional local ONNX triage",
 	"author": "Jesset (https://github.com/jesset)",
+	"contributors": [
+		{
+			"name": "alfiwillianz",
+			"url": "https://github.com/alfiwillianz"
+		}
+	],
+	"license": "MIT",
 	"type": "module",
-	"main": "extensions/pi-verdict.ts",
+	"main": "lib/index.js",
+	"types": "lib/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./lib/index.d.ts",
+			"import": "./lib/index.js"
+		}
+	},
 	"files": [
-		"extensions/pi-verdict.ts",
+		"lib",
+		"cordis.patch.yml",
 		"README.md",
-		"README.zh-CN.md",
 		"LICENSE"
 	],
 	"keywords": [
-		"pi-package",
-		"pi",
-		"pi-extension",
-		"extension",
-		"pi-coding-agent",
+		"dsh",
+		"dsh-plugin",
+		"dsh-tui",
+		"deepseek-harness",
+		"cordis",
 		"auto-mode",
 		"automode",
 		"permissions",
@@ -24,39 +38,50 @@
 		"tool-call",
 		"classifier",
 		"ai-agent",
-		"jev",
-		"typesafe",
-		"system-one",
-		"decisions",
-		"openrouter"
+		"onnx",
+		"lancet"
 	],
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/jesset/pi-verdict.git"
+		"url": "git+https://github.com/alfiwillianz/dsh-verdict-tiered.git"
 	},
-	"homepage": "https://github.com/jesset/pi-verdict#readme",
-	"bugs": "https://github.com/jesset/pi-verdict/issues",
-	"license": "MIT",
-	"pi": {
-		"extensions": [
-			"./extensions"
-		]
+	"homepage": "https://github.com/alfiwillianz/dsh-verdict-tiered#readme",
+	"bugs": "https://github.com/alfiwillianz/dsh-verdict-tiered/issues",
+	"dsh": {
+		"bundle": {
+			"patch": "./cordis.patch.yml"
+		}
+	},
+	"engines": {
+		"node": "^22.19 || >=24"
 	},
 	"scripts": {
+		"build": "tsc -p tsconfig.json",
 		"typecheck": "tsc --noEmit -p tsconfig.json",
 		"test": "bun test"
 	},
 	"peerDependencies": {
-		"@earendil-works/pi-coding-agent": ">=0.99.0"
+		"@deepseek-ai/cordis": "^4.0.1",
+		"@deepseek-ai/dsh-agent": "*",
+		"@deepseek-ai/dsh-commands": "*",
+		"@deepseek-ai/dsh-llm": "*",
+		"@deepseek-ai/dsh-permission-presets": "*",
+		"@deepseek-ai/dsh-session": "*",
+		"@deepseek-ai/dsh-session-projection": "*",
+		"@deepseek-ai/dsh-tools": "*",
+		"@deepseek-ai/dsh-user-approval": "*",
+		"@deepseek-ai/schemastery": "^3.18.1"
 	},
 	"peerDependenciesMeta": {
-		"@earendil-works/pi-coding-agent": {
+		"@deepseek-ai/dsh-commands": {
+			"optional": true
+		},
+		"@deepseek-ai/dsh-session-projection": {
 			"optional": true
 		}
 	},
 	"devDependencies": {
-		"@earendil-works/pi-coding-agent": "1.0.0",
-		"@types/node": "^26.3.0",
-		"typescript": "^7.0.2"
+		"@types/node": "^22.0.0",
+		"typescript": "^5.7.0"
 	}
 }
